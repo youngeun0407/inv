@@ -878,9 +878,9 @@
             <div class="hero-sub reveal" style="--d: 260ms">
               <div>
                 <span id="weddingDateText">2026년 5월 10일(일)</span> ·
-                <span id="weddingTimeText">매씨드라</span>
+                <span id="weddingTimeText">오후 12시</span>
               </div>
-              <div><span id="venueName">라비에벨웨딩홀</span> · <span id="venueHall">부천 상동 세이브존</span></div>
+              <div><span id="venueName">라비에벨웨딩</span> · <span id="venueHall">부천 상동 세이브존</span></div>
             </div>
             <div class="pill-row reveal" style="--d: 320ms">
               <div class="pill"><b>D-Day</b> <span id="dDayShort">-</span></div>
@@ -1150,16 +1150,16 @@
       const WEDDING = {
         groomName: "사호진",
         brideName: "강효진",
-        dateTimeISO: "2026-05-10T00:00:00+09:00",
-        timeLabel: "일시 미정 (추후 안내)",
+        dateTimeISO: "2026-05-10T12:00:00+09:00",
+        timeLabel: "오후 12시",
         timeUnknown: true,
-        venueName: "라비에벨웨딩홀",
+        venueName: "라비에벨웨딩",
         mapSearchKeyword: "라비에벨웨딩",
         venueHall: "부천 상동 세이브존",
         locationEmphasis: "부천 상동 세이브존 내 위치",
-        addressFull: "부천 상동 세이브존(상동점) 내 라비에벨웨딩홀",
+        addressFull: "부천 상동 세이브존(상동점) 내 라비에벨웨딩",
         addressShort: "부천 상동 세이브존",
-        transportHint: "라비에벨웨딩홀은 부천 상동 세이브존 내에 위치해 있습니다. (상가 내부 이동 동선 참고)",
+        transportHint: "라비에벨웨딩은 부천 상동 세이브존 내에 위치해 있습니다. (상가 내부 이동 동선 참고)",
       };
 
       // =========================
@@ -1290,7 +1290,7 @@
           elShort.textContent = `D-${days}`;
           elStatus.textContent = days === 0 ? "D-0" : `D-${days}`;
           elNote.textContent = WEDDING.timeUnknown
-            ? "예식 시간은 추후 안내 예정이며, 디데이는 날짜(00:00) 기준으로 표시됩니다."
+            ? "디데이는 날짜(00:00) 기준으로 표시됩니다."
             : "시간은 현재 기기 기준으로 계산됩니다.";
         }
 
