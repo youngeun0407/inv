@@ -1168,18 +1168,18 @@
           ["#f4ede1", "#d4b9a3"],
         ];
 
-        // 유저가 제공한 로컬 이미지(더미) 우선 사용
-        const localImagePaths = [
-          "/Users/kim-young-eun/Library/Application Support/Cursor/User/workspaceStorage/1770017845774/images/B028CF09-28AE-43D0-B9D9-607A4F8CD6E7_4_5005_c-031af5a7-5a90-42eb-bf6c-5697059057c8.png",
-          "/Users/kim-young-eun/Library/Application Support/Cursor/User/workspaceStorage/1770017845774/images/9577FF4A-9788-4005-8FEA-DDBA5CF7420A_4_5005_c-9a53860e-fb14-4442-9b1c-eff25246ab82.png",
-          "/Users/kim-young-eun/Library/Application Support/Cursor/User/workspaceStorage/1770017845774/images/2A9B3D4F-829F-4D1F-9916-44081B559821_4_5005_c-abea3506-3115-464e-867c-3f0b3f382139.png",
-          "/Users/kim-young-eun/Library/Application Support/Cursor/User/workspaceStorage/1770017845774/images/3FAF0190-C22F-4086-977F-262E376BB0DF_4_5005_c-a76e8354-a14d-4148-90ef-fa584328d028.png",
-          "/Users/kim-young-eun/Library/Application Support/Cursor/User/workspaceStorage/1770017845774/images/FF3A6312-C7CA-43B3-A513-B4A80CF902C2_4_5005_c-8e0777ec-6188-4075-87dc-37985810f0db.png",
-          "/Users/kim-young-eun/Library/Application Support/Cursor/User/workspaceStorage/1770017845774/images/8DF64281-728B-4A32-8288-469428D7ADB7_4_5005_c-03df4dd2-5d55-42c6-88a1-f91404b9ce2c.png",
-          "/Users/kim-young-eun/Library/Application Support/Cursor/User/workspaceStorage/1770017845774/images/32EE6EAF-B43C-4F2A-81B0-718225F21E5F_4_5005_c-1278a67b-0002-41ac-915b-ab06381edf4a.png",
-          "/Users/kim-young-eun/Library/Application Support/Cursor/User/workspaceStorage/1770017845774/images/38F93D2B-D988-4566-B659-31BED0E0052A_4_5005_c-761ce726-7fb0-416c-9719-7c781ce0a2f4.png",
-          "/Users/kim-young-eun/Library/Application Support/Cursor/User/workspaceStorage/1770017845774/images/01414F3D-531C-427D-B06A-C731387DF244_4_5005_c-2fec1270-eefe-4a51-a6be-e12b7caf7b6d.png",
-        ];
+        // 깃허브 images 폴더 내의 실제 파일명과 매칭된 경로입니다.
+const localImagePaths = [
+  "./images/B028CF09-28AE-43D0-B9D9-607A4F8CD6E7_4_5005_c-031af5a7-5a90-42eb-bf6c-5697059057c8.png",
+  "./images/9577FF4A-9788-4005-8FEA-DDBA5CF7420A_4_5005_c-9a53860e-fb14-4442-9b1c-eff25246ab82.png",
+  "./images/2A9B3D4F-829F-4D1F-9916-44081B559821_4_5005_c-abea3506-3115-464e-867c-3f0b3f382139.png",
+  "./images/3FAF0190-C22F-4086-977F-262E376BB0DF_4_5005_c-a76e8354-a14d-4148-90ef-fa584328d028.png",
+  "./images/FF3A6312-C7CA-43B3-A513-B4A80CF902C2_4_5005_c-8e0777ec-6188-4075-87dc-37985810f0db.png",
+  "./images/8DF64281-728B-4A32-8288-469428D7ADB7_4_5005_c-03df4dd2-5d55-42c6-88a1-f91404b9ce2c.png",
+  "./images/32EE6EAF-B43C-4F2A-81B0-718225F21E5F_4_5005_c-1278a67b-0002-41ac-915b-ab06381edf4a.png",
+  "./images/38F93D2B-D988-4566-B659-31BED0E0052A_4_5005_c-761ce726-7fb0-416c-9719-7c781ce0a2f4.png",
+  "./images/01414F3D-531C-427D-B06A-C731387DF244_4_5005_c-2fec1270-eefe-4a51-a6be-e12b7caf7b6d.png"
+];
 
         const items = localImagePaths.map((absPath, i) => {
           const [c1, c2] = colors[i % colors.length];
