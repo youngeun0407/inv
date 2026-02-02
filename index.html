@@ -258,6 +258,7 @@
         position: relative;
         box-shadow: 0 12px 22px rgba(31, 35, 48, 0.10);
         transform: translateZ(0);
+        cursor: pointer;
       }
 
       .thumb img {
@@ -534,7 +535,7 @@
         box-shadow: 0 12px 24px rgba(31, 35, 48, 0.10);
       }
 
-      /* Lightbox */
+      /* Enhanced Lightbox with Navigation */
       .lightbox {
         position: fixed;
         inset: 0;
@@ -542,57 +543,211 @@
         display: none;
         align-items: center;
         justify-content: center;
-        padding: 18px;
-        background: rgba(18, 14, 12, 0.58);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
+        background: rgba(18, 14, 12, 0.72);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        opacity: 0;
+        transition: opacity 320ms ease;
       }
 
       .lightbox[aria-hidden="false"] {
         display: flex;
+        opacity: 1;
+      }
+
+      .lightbox-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 60px 20px 20px;
       }
 
       .lightbox-inner {
-        width: min(560px, 100%);
-        border-radius: 22px;
-        overflow: hidden;
-        background: rgba(255, 255, 255, 0.65);
-        border: 1px solid rgba(255, 255, 255, 0.25);
-        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+        position: relative;
+        width: min(900px, 100%);
+        max-height: 100%;
+        display: flex;
+        flex-direction: column;
+        transform: scale(0.92);
+        opacity: 0;
+        transition: transform 380ms cubic-bezier(0.18, 0.9, 0.25, 1.1), opacity 320ms ease;
       }
 
-      .lightbox-top {
+      .lightbox[aria-hidden="false"] .lightbox-inner {
+        transform: scale(1);
+        opacity: 1;
+      }
+
+      .lightbox-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 10px;
-        padding: 12px 12px;
+        padding: 14px 18px;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.88) 100%);
+        border-radius: 22px 22px 0 0;
+        border: 1px solid rgba(255, 255, 255, 0.35);
         border-bottom: 1px solid rgba(31, 35, 48, 0.12);
-        background: rgba(255, 255, 255, 0.55);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
       }
 
       .lightbox-title {
         font-family: var(--serif);
-        font-size: 14px;
-        color: rgba(31, 35, 48, 0.8);
+        font-size: 15px;
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      .lightbox-counter {
+        font-size: 13px;
+        color: var(--muted);
+        font-family: var(--serif);
+        font-variant-numeric: tabular-nums;
       }
 
       .lightbox-close {
-        border: 1px solid rgba(31, 35, 48, 0.16);
-        background: rgba(255, 255, 255, 0.6);
+        border: 1px solid rgba(255, 122, 138, 0.28);
+        background: linear-gradient(135deg, rgba(255, 122, 138, 0.18), rgba(90, 169, 255, 0.14), rgba(255, 255, 255, 0.85));
         border-radius: 999px;
-        width: 40px;
-        height: 40px;
+        width: 44px;
+        height: 44px;
         display: grid;
         place-items: center;
-        font-size: 18px;
-        color: rgba(31, 35, 48, 0.85);
+        font-size: 22px;
+        color: rgba(31, 35, 48, 0.88);
+        font-weight: 300;
+        cursor: pointer;
+        transition: transform 200ms ease, box-shadow 200ms ease;
+        box-shadow: 0 4px 12px rgba(31, 35, 48, 0.12);
+      }
+
+      .lightbox-close:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 18px rgba(31, 35, 48, 0.18);
+      }
+
+      .lightbox-close:active {
+        transform: scale(0.95);
+      }
+
+      .lightbox-img-container {
+        position: relative;
+        flex: 1;
+        min-height: 0;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.78) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        border-top: 0;
+        border-radius: 0 0 22px 22px;
+        overflow: hidden;
+        touch-action: pan-y;
+      }
+
+      .lightbox-img-wrapper {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        transition: transform 300ms ease;
       }
 
       .lightbox-img {
-        width: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
         height: auto;
         display: block;
+        border-radius: 12px;
+        box-shadow: 0 20px 60px rgba(31, 35, 48, 0.25);
+      }
+
+      /* Navigation Arrows */
+      .lightbox-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 52px;
+        height: 52px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 122, 138, 0.32);
+        background: linear-gradient(135deg, 
+          rgba(255, 122, 138, 0.24) 0%, 
+          rgba(90, 169, 255, 0.20) 48%, 
+          rgba(255, 255, 255, 0.92) 100%);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        transition: all 250ms cubic-bezier(0.18, 0.9, 0.25, 1.1);
+        box-shadow: 0 8px 24px rgba(31, 35, 48, 0.16);
+        z-index: 10;
+      }
+
+      .lightbox-nav:hover {
+        transform: translateY(-50%) scale(1.08);
+        box-shadow: 0 12px 32px rgba(31, 35, 48, 0.22);
+        background: linear-gradient(135deg, 
+          rgba(255, 122, 138, 0.32) 0%, 
+          rgba(90, 169, 255, 0.26) 48%, 
+          rgba(255, 255, 255, 0.96) 100%);
+      }
+
+      .lightbox-nav:active {
+        transform: translateY(-50%) scale(0.96);
+      }
+
+      .lightbox-nav-prev {
+        left: 16px;
+      }
+
+      .lightbox-nav-next {
+        right: 16px;
+      }
+
+      .lightbox-nav svg {
+        width: 24px;
+        height: 24px;
+        stroke: rgba(31, 35, 48, 0.88);
+        stroke-width: 2.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        fill: none;
+      }
+
+      .lightbox-nav:disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+
+      /* Mobile adjustments */
+      @media (max-width: 600px) {
+        .lightbox-container {
+          padding: 50px 10px 10px;
+        }
+
+        .lightbox-nav {
+          width: 46px;
+          height: 46px;
+        }
+
+        .lightbox-nav-prev {
+          left: 10px;
+        }
+
+        .lightbox-nav-next {
+          right: 10px;
+        }
+
+        .lightbox-nav svg {
+          width: 20px;
+          height: 20px;
+        }
       }
 
       /* Toast */
@@ -701,7 +856,9 @@
           filter: none;
           animation: none !important;
         }
-        .thumb img {
+        .thumb img,
+        .lightbox-inner,
+        .lightbox-nav {
           transition: none;
         }
       }
@@ -721,7 +878,7 @@
             <div class="hero-sub reveal" style="--d: 260ms">
               <div>
                 <span id="weddingDateText">2026년 5월 10일(일)</span> ·
-                <span id="weddingTimeText">오후 12시</span>
+                <span id="weddingTimeText">매씨드라</span>
               </div>
               <div><span id="venueName">라비에벨웨딩홀</span> · <span id="venueHall">부천 상동 세이브존</span></div>
             </div>
@@ -810,7 +967,7 @@
               <div class="kicker reveal" style="--d: 120ms">gallery</div>
               <h2 class="reveal" style="--d: 160ms">갤러리</h2>
               <div class="divider"></div>
-              <p class="reveal" style="--d: 200ms">사진을 눌러 크게 감상해 주세요. (더미 이미지)</p>
+              <p class="reveal" style="--d: 200ms">사진을 눌러 크게 감상하고 좌우로 넘겨보세요</p>
             </div>
             <div class="grid" id="galleryGrid" aria-label="사진 갤러리"></div>
           </div>
@@ -952,14 +1109,35 @@
       </div>
     </div>
 
-    <!-- LIGHTBOX -->
+    <!-- ENHANCED LIGHTBOX WITH NAVIGATION -->
     <div class="lightbox" id="lightbox" aria-hidden="true" aria-label="이미지 확대 보기" role="dialog" aria-modal="true">
-      <div class="lightbox-inner">
-        <div class="lightbox-top">
-          <div class="lightbox-title" id="lightboxTitle">사진</div>
-          <button class="lightbox-close" type="button" id="lightboxClose" aria-label="닫기">×</button>
+      <div class="lightbox-container" id="lightboxContainer">
+        <div class="lightbox-inner">
+          <div class="lightbox-header">
+            <div>
+              <div class="lightbox-title" id="lightboxTitle">갤러리</div>
+              <div class="lightbox-counter" id="lightboxCounter">1 / 9</div>
+            </div>
+            <button class="lightbox-close" type="button" id="lightboxClose" aria-label="닫기">×</button>
+          </div>
+          <div class="lightbox-img-container" id="lightboxImgContainer">
+            <div class="lightbox-img-wrapper" id="lightboxImgWrapper">
+              <img class="lightbox-img" id="lightboxImg" alt="" />
+            </div>
+          </div>
         </div>
-        <img class="lightbox-img" id="lightboxImg" alt="" />
+        
+        <!-- Navigation Arrows -->
+        <button class="lightbox-nav lightbox-nav-prev" id="lightboxPrev" type="button" aria-label="이전 사진">
+          <svg viewBox="0 0 24 24">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <button class="lightbox-nav lightbox-nav-next" id="lightboxNext" type="button" aria-label="다음 사진">
+          <svg viewBox="0 0 24 24">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
       </div>
     </div>
 
@@ -972,9 +1150,8 @@
       const WEDDING = {
         groomName: "사호진",
         brideName: "강효진",
-        // 예식 시간 미정: 날짜 기준 디데이만 표시됩니다.
-        dateTimeISO: "2026-05-10T12:00:00+09:00",
-        timeLabel: "오후 12시",
+        dateTimeISO: "2026-05-10T00:00:00+09:00",
+        timeLabel: "일시 미정 (추후 안내)",
         timeUnknown: true,
         venueName: "라비에벨웨딩홀",
         mapSearchKeyword: "라비에벨웨딩",
@@ -1113,7 +1290,7 @@
           elShort.textContent = `D-${days}`;
           elStatus.textContent = days === 0 ? "D-0" : `D-${days}`;
           elNote.textContent = WEDDING.timeUnknown
-            ? "디데이는 날짜(00:00) 기준으로 표시됩니다."
+            ? "예식 시간은 추후 안내 예정이며, 디데이는 날짜(00:00) 기준으로 표시됩니다."
             : "시간은 현재 기기 기준으로 계산됩니다.";
         }
 
@@ -1122,7 +1299,7 @@
       }
 
       // =========================
-      // 6) 갤러리(더미 이미지) + 라이트박스
+      // 6) 갤러리 + 라이트박스 with Navigation
       // =========================
       function svgDataUri({ title, c1, c2 }) {
         const svg = `
@@ -1153,9 +1330,11 @@
         return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
       }
 
+      let galleryItems = [];
+      let currentIndex = 0;
+
       function setupGallery() {
         const grid = $("#galleryGrid");
-        const toFileUrl = (absPath) => "file://" + encodeURI(absPath);
         const colors = [
           ["#f6efe3", "#e7d4bf"],
           ["#f4eadf", "#d9bfa7"],
@@ -1168,30 +1347,30 @@
           ["#f4ede1", "#d4b9a3"],
         ];
 
-        // 깃허브 images 폴더 내의 실제 파일명과 매칭된 경로입니다.
-const localImagePaths = [
-  "./images/B028CF09-28AE-43D0-B9D9-607A4F8CD6E7_4_5005_c-031af5a7-5a90-42eb-bf6c-5697059057c8.png",
-  "./images/9577FF4A-9788-4005-8FEA-DDBA5CF7420A_4_5005_c-9a53860e-fb14-4442-9b1c-eff25246ab82.png",
-  "./images/2A9B3D4F-829F-4D1F-9916-44081B559821_4_5005_c-abea3506-3115-464e-867c-3f0b3f382139.png",
-  "./images/3FAF0190-C22F-4086-977F-262E376BB0DF_4_5005_c-a76e8354-a14d-4148-90ef-fa584328d028.png",
-  "./images/FF3A6312-C7CA-43B3-A513-B4A80CF902C2_4_5005_c-8e0777ec-6188-4075-87dc-37985810f0db.png",
-  "./images/8DF64281-728B-4A32-8288-469428D7ADB7_4_5005_c-03df4dd2-5d55-42c6-88a1-f91404b9ce2c.png",
-  "./images/32EE6EAF-B43C-4F2A-81B0-718225F21E5F_4_5005_c-1278a67b-0002-41ac-915b-ab06381edf4a.png",
-  "./images/38F93D2B-D988-4566-B659-31BED0E0052A_4_5005_c-761ce726-7fb0-416c-9719-7c781ce0a2f4.png",
-  "./images/01414F3D-531C-427D-B06A-C731387DF244_4_5005_c-2fec1270-eefe-4a51-a6be-e12b7caf7b6d.png"
-];
+        // 깃허브 레포의 images 폴더 내 상대 경로
+        const imageFiles = [
+          "B028CF09-28AE-43D0-B9D9-607A4F8CD6E7_4_5005_c-031af5a7-5a90-42eb-bf6c-5697059057c8.png",
+          "9577FF4A-9788-4005-8FEA-DDBA5CF7420A_4_5005_c-9a53860e-fb14-4442-9b1c-eff25246ab82.png",
+          "2A9B3D4F-829F-4D1F-9916-44081B559821_4_5005_c-abea3506-3115-464e-867c-3f0b3f382139.png",
+          "3FAF0190-C22F-4086-977F-262E376BB0DF_4_5005_c-a76e8354-a14d-4148-90ef-fa584328d028.png",
+          "FF3A6312-C7CA-43B3-A513-B4A80CF902C2_4_5005_c-8e0777ec-6188-4075-87dc-37985810f0db.png",
+          "8DF64281-728B-4A32-8288-469428D7ADB7_4_5005_c-03df4dd2-5d55-42c6-88a1-f91404b9ce2c.png",
+          "32EE6EAF-B43C-4F2A-81B0-718225F21E5F_4_5005_c-1278a67b-0002-41ac-915b-ab06381edf4a.png",
+          "38F93D2B-D988-4566-B659-31BED0E0052A_4_5005_c-761ce726-7fb0-416c-9719-7c781ce0a2f4.png",
+          "01414F3D-531C-427D-B06A-C731387DF244_4_5005_c-2fec1270-eefe-4a51-a6be-e12b7caf7b6d.png",
+        ];
 
-        const items = localImagePaths.map((absPath, i) => {
+        galleryItems = imageFiles.map((filename, i) => {
           const [c1, c2] = colors[i % colors.length];
           return {
             title: `Photo ${pad2(i + 1)}`,
-            src: toFileUrl(absPath),
+            src: `./images/${filename}`,
             fallback: svgDataUri({ title: `Photo ${pad2(i + 1)}`, c1, c2 }),
           };
         });
 
         grid.innerHTML = "";
-        items.forEach((it, idx) => {
+        galleryItems.forEach((it, idx) => {
           const btn = document.createElement("button");
           btn.type = "button";
           btn.className = "thumb reveal";
@@ -1207,23 +1386,15 @@ const localImagePaths = [
           };
 
           btn.appendChild(img);
-          btn.addEventListener("click", () =>
-            openLightbox({
-              title: it.title,
-              src: img.currentSrc || img.src,
-            })
-          );
+          btn.addEventListener("click", () => openLightbox(idx));
           grid.appendChild(btn);
         });
       }
 
-      function openLightbox(item) {
+      function openLightbox(index) {
+        currentIndex = index;
+        updateLightboxImage();
         const lb = $("#lightbox");
-        const img = $("#lightboxImg");
-        const title = $("#lightboxTitle");
-        img.src = item.src;
-        img.alt = item.title;
-        title.textContent = item.title;
         lb.setAttribute("aria-hidden", "false");
         document.body.style.overflow = "hidden";
         $("#lightboxClose").focus?.();
@@ -1235,21 +1406,87 @@ const localImagePaths = [
         document.body.style.overflow = "";
       }
 
+      function updateLightboxImage() {
+        const item = galleryItems[currentIndex];
+        const img = $("#lightboxImg");
+        const title = $("#lightboxTitle");
+        const counter = $("#lightboxCounter");
+        const prevBtn = $("#lightboxPrev");
+        const nextBtn = $("#lightboxNext");
+
+        img.src = item.src;
+        img.alt = item.title;
+        title.textContent = item.title;
+        counter.textContent = `${currentIndex + 1} / ${galleryItems.length}`;
+
+        // Disable buttons at boundaries
+        prevBtn.disabled = currentIndex === 0;
+        nextBtn.disabled = currentIndex === galleryItems.length - 1;
+      }
+
+      function navigateLightbox(direction) {
+        const newIndex = currentIndex + direction;
+        if (newIndex >= 0 && newIndex < galleryItems.length) {
+          currentIndex = newIndex;
+          updateLightboxImage();
+        }
+      }
+
       function setupLightboxEvents() {
         $("#lightboxClose").addEventListener("click", closeLightbox);
-        $("#lightbox").addEventListener("click", (e) => {
-          if (e.target.id === "lightbox") closeLightbox();
+        $("#lightboxPrev").addEventListener("click", () => navigateLightbox(-1));
+        $("#lightboxNext").addEventListener("click", () => navigateLightbox(1));
+        
+        // Click background to close
+        $("#lightboxContainer").addEventListener("click", (e) => {
+          if (e.target.id === "lightboxContainer") {
+            closeLightbox();
+          }
         });
+
+        // Keyboard navigation
         window.addEventListener("keydown", (e) => {
-          if (e.key === "Escape") closeLightbox();
+          if ($("#lightbox").getAttribute("aria-hidden") === "false") {
+            if (e.key === "Escape") closeLightbox();
+            if (e.key === "ArrowLeft") navigateLightbox(-1);
+            if (e.key === "ArrowRight") navigateLightbox(1);
+          }
         });
+
+        // Touch/Swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const imgContainer = $("#lightboxImgContainer");
+
+        imgContainer.addEventListener("touchstart", (e) => {
+          touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        imgContainer.addEventListener("touchend", (e) => {
+          touchEndX = e.changedTouches[0].screenX;
+          handleSwipe();
+        }, { passive: true });
+
+        function handleSwipe() {
+          const swipeThreshold = 50;
+          const diff = touchStartX - touchEndX;
+          
+          if (Math.abs(diff) > swipeThreshold) {
+            if (diff > 0) {
+              // Swipe left - next image
+              navigateLightbox(1);
+            } else {
+              // Swipe right - previous image
+              navigateLightbox(-1);
+            }
+          }
+        }
       }
 
       // =========================
       // 7) 지도 버튼
       // =========================
       function setupMapButtons() {
-        // 지도 앱 검색어는 정확히 잡히는 키워드로 고정
         const query = (WEDDING.mapSearchKeyword || WEDDING.venueName || "라비에벨웨딩").trim();
         const enc = encodeURIComponent(query);
         const kakaoUrl = `https://map.kakao.com/link/search/${enc}`;
@@ -1267,7 +1504,6 @@ const localImagePaths = [
           await navigator.clipboard.writeText(text);
           return true;
         } catch {
-          // fallback
           try {
             const ta = document.createElement("textarea");
             ta.value = text;
@@ -1306,7 +1542,7 @@ const localImagePaths = [
       }
 
       // =========================
-      // 9) 공유 버튼 (카카오톡: 기기 공유 사용)
+      // 9) 공유 버튼
       // =========================
       async function setupShare() {
         const btn = $("#shareBtn");
